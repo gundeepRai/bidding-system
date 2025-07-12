@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const protect = require('../middlewares/authMiddleware');
+//const protect = require('../middlewares/authMiddleware');
 
 const {
   createProduct,
@@ -9,10 +9,10 @@ const {
 } = require('../controllers/productController');
 
 // POST /api/products → Create product
-router.post('/', protect, createProduct);
+router.post('/', createProduct);
 
 // GET /api/products/user/:userId → Get user's products
-router.get('/user/:userId', getProductsByUser);
+router.get('/created_By/:created_By', getProductsByUser);
 
 // GET /api/products/:productId → Get product details
 router.get('/:productId', getProductById);

@@ -3,22 +3,30 @@ const { Schema } = mongoose;
 
 const bidSchema = new Schema(
   {
-    product: {
-      type: Schema.Types.ObjectId,
-      ref: 'Product',
+    bid_id: {
+      type: String,
       required: true,
+      unique: true,
+      index: true,
     },
-    bidder: {
-      type: Schema.Types.ObjectId,
+    bid_by: {
+      type: String,
+      required: true,
+      index: true,
       ref: 'User',
-      required: true,
     },
-    bidAmount: {
+    product: {
+      type: String, // hashed product_id
+      required: true,
+      index: true,
+      ref: 'Product',
+    },
+    bid_amount: {
       type: Number,
       required: true,
       min: 0,
     },
-    createdAt: {
+    bid_time: {
       type: Date,
       default: Date.now,
     },

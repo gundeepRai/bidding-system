@@ -3,24 +3,29 @@ const { Schema } = mongoose;
 
 const productSchema = new Schema(
   {
-    title: {
+    product_id: {
+      type: String,
+      unique: true,
+      required: true,
+      index: true,
+    },
+    pname: {
       type: String,
       required: true,
-      trim: true,
     },
     description: {
       type: String,
-      trim: true,
     },
     startingPrice: {
       type: Number,
       required: true,
       min: 0,
     },
-    createdBy: {
-      type: Schema.Types.ObjectId,
+    created_By: {
+      type: String,
       ref: 'User',
       required: true,
+      index: true,
     },
     biddingDeadline: {
       type: Date,

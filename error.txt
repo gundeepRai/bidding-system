@@ -1,0 +1,29 @@
+--------------- ERROR 1 ---------------------------------------------
+prompt : in this image, i am testing the route,http://localhost:5000/api/products/active
+which i already removed in the backend, still on clicking send button in postman, this route is giving replies.
+how is so does possible
+
+Workspace
+Collecting workspace information
+
+This happens because you haven't actually removed or disabled the /api/products/active route in your backend code. In your backend, the only defined product routes are:
+
+POST /api/products/ (create product)
+GET /api/products/created_By/:created_By (get products by user)
+GET /api/products/:productId (get product by id)
+There is no /api/products/active route defined in your current productRoutes.js.
+
+Why does Postman still get a response? When you send a request to a non-existent route in Express, it will still return a response (usually a 404 or sometimes a default response if you have a catch-all handler).
+But in your case, the GET /api/products/:productId route is catching /api/products/active and treating "active" as a productId parameter.
+
+So, when you call /api/products/active, your backend runs the getProductById controller with productId = "active", which returns:
+
+because there is no product with product_id: "active".
+
+Summary:
+
+/api/products/active is being matched by the GET /api/products/:productId route.
+That's why you get a valid (but empty) response, not a 404.
+How to fix this? If you want /api/products/active to return 404 unless you explicitly define it, you should reorder your routes in productRoutes.js:
+
+Tip: Always put parameterized routes like /:id at the end, after all specific routes.

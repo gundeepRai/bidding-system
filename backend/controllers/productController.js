@@ -1,6 +1,24 @@
 const Product = require('../models/product');
 const { generateProductId } = require('../utils/product.util');
 
+// Get all products with future bidding deadline
+const getActiveProducts = async (req, res) => {
+  try {
+    const now = new Date();
+
+    const activeProducts = await Product.find({
+      biddingDeadline: { $gt: now }
+    }).sort({ createdAt: -1 }); // Newest first
+
+    //console.log("Active Products Found:", activeProducts.length);
+
+    return res.status(200).json({ success: true, products: activeProducts });
+  } catch (err) {
+    console.error("Error fetching active products:", err);
+    return res.status(500).json({ success: false, error: err.message });
+  }
+};
+
 // Create a new product
 const createProduct = async (req, res) => {
   try {
@@ -46,6 +64,7 @@ const getProductById = async (req, res) => {
     const product = await Product.find({ product_id: productId });
 
     if (!product) return res.status(404).json({ error: 'Product not found' });
+    //if(product) console.log("Found product:", product.pname);
 
     res.status(200).json({ success: true, product });
   } catch (error) {
@@ -53,8 +72,11 @@ const getProductById = async (req, res) => {
   }
 };
 
+
+
 module.exports = {
   createProduct,
   getProductsByUser,
   getProductById,
+  getActiveProducts,
 };

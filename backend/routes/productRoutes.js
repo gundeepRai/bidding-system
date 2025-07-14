@@ -6,15 +6,22 @@ const {
   createProduct,
   getProductsByUser,
   getProductById,
+  getActiveProducts,
 } = require('../controllers/productController');
 
-// POST /api/products → Create product
-router.post('/', createProduct);
+// GET /api/products/active → Get all active products
+router.get('/active', getActiveProducts);
 
 // GET /api/products/user/:userId → Get user's products
 router.get('/created_By/:created_By', getProductsByUser);
 
 // GET /api/products/:productId → Get product details
 router.get('/:productId', getProductById);
+
+// POST /api/products → Create product
+router.post('/', createProduct);
+
+
+
 
 module.exports = router;

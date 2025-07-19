@@ -22,9 +22,9 @@ const getActiveProducts = async (req, res) => {
 // Create a new product
 const createProduct = async (req, res) => {
   try {
-    const { pname, description, startingPrice, biddingDeadline, created_By } = req.body;
+    const { pname, description, startingPrice, biddingDeadline } = req.body;
 
-    //const userId = req.user.user_id; // ✅ This must come from JWT middleware
+    const created_By = req.user.user_id; // ✅ This must come from JWT middleware
 
     const productId = generateProductId(created_By, pname);
 

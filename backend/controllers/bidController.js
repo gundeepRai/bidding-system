@@ -89,6 +89,7 @@ const getBidsByUser = async (req, res) => {
   }
 };
 
+// Get highest bid for a product
 const getHighestBid = async (req, res) => {
   try {
     const { productId } = req.params;

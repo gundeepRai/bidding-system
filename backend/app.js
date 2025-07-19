@@ -10,7 +10,10 @@ const authRoutes = require('./routes/authRoutes');
 dotenv.config(); // Load .env
 connectDB();     // Connect to MongoDB
 
-const app = express();
+const app = express({
+  origin: "http://127.0.0.1:5500", // frontend served via Live Server
+  credentials: true
+});
 app.use(cors());
 app.use(express.json()); // To parse JSON in requests
 

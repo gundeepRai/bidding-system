@@ -1,0 +1,35 @@
+<!-- auth.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Auth | Bidding System</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="auth-container">
+    <!-- LOGIN FORM -->
+    <div id="login-form" class="auth-box">
+      <h2>Log in</h2>
+      <input type="email" id="login-email" placeholder="Email" required />
+      <input type="password" id="login-password" placeholder="Password" required />
+      <button onclick="loginUser()">Sign In</button>
+      <p>New user? <a href="#" onclick="toggleForms()">Register Now</a></p>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div id="signup-form" class="auth-box hidden">
+      <h2>Register</h2>
+      <input type="text" id="signup-name" placeholder="Name" required />
+      <input type="email" id="signup-email" placeholder="Email" required />
+      <input type="password" id="signup-password" placeholder="Password" required />
+      <button onclick="registerUser()">Register</button>
+      <p>Already have an account? <a href="#" onclick="toggleForms()">Login</a></p>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

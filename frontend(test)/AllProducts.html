@@ -1,0 +1,80 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Explore Products</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap">
+    <style>
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #fdfcfb;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="flex justify-between items-center px-10 py-4 border-b border-[#f3f0e7] sticky top-0 bg-white">
+      <h1 class="text-xl font-bold text-[#1c170d]">BidHub</h1>
+      <nav class="space-x-6">
+        <a href="index.html" class="text-sm font-bold text-[#1c170d]">Home</a>
+        <a href="UserDashboard.html" class="text-sm font-bold text-[#1c170d]">My Bids</a>
+      </nav>
+      <a href="auth.html">
+      <div class="flex items-center gap-4">
+        <button class="bg-[#f3c348] text-[#1c170d] px-4 py-2 rounded-full text-sm font-bold">Sign Up</button>
+        <button class="bg-[#f3f0e7] text-[#1c170d] px-4 py-2 rounded-full text-sm font-bold">Log In</button>
+      </div>
+      </a>
+    </header>
+
+    <main class="px-20 py-10">
+      <h2 class="text-3xl font-bold text-[#1c170d] mb-6">Explore Items</h2>
+
+      <div class="mb-6 flex gap-3 flex-wrap">
+        <button class="px-4 py-2 rounded-full bg-[#f3c348] text-sm font-medium text-[#1c170d]">All Items</button>
+        <button class="px-4 py-2 rounded-full bg-[#f3f0e7] text-sm font-medium text-[#1c170d]">Electronics</button>
+        <button class="px-4 py-2 rounded-full bg-[#f3f0e7] text-sm font-medium text-[#1c170d]">Collectibles</button>
+        <button class="px-4 py-2 rounded-full bg-[#f3f0e7] text-sm font-medium text-[#1c170d]">Home & Garden</button>
+      </div>
+
+      <div id="product-list" class="space-y-6">
+        <!-- Product cards will be injected here -->
+      </div>
+    </main>
+
+    <script src="./js/AllProducts.js"></script>
+  </body>
+  </html>
+
+
+
+
+
+  <!-- <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Explore Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-white font-sans">
+    <header class="p-4 flex justify-between border-b">
+      <h1 class="text-xl font-bold">BidHub</h1>
+      <nav>
+        <a href="#" class="mr-4">Home</a>
+        <a href="#">My Bids</a>
+      </nav>
+    </header>
+
+    <main class="px-8 py-6">
+      <h2 class="text-3xl font-bold mb-4">Explore Items</h2>
+      <div id="product-list" class="space-y-4">
+        Product cards will be injected here
+      </div>
+    </main>
+
+    <script src="./js/AllProducts.js"></script>
+  </body>
+  </html> -->

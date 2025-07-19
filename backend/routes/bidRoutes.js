@@ -13,7 +13,7 @@ const {
 router.post('/:productId', protect, placeBid);
 
 // GET /api/bids/:productId → Get product bid history
-router.get('/:productId', getBidsByProduct);
+router.get('/history/:productId', getBidsByProduct);
 
 // GET /api/bids/user/:userId → Get all bids by user
 router.get('/user/:userId', getBidsByUser);

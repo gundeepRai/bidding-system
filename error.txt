@@ -1,4 +1,4 @@
---------------- ERROR 1 ---------------------------------------------
+----------------------------------- ERROR 1 ---------------------------------------------
 prompt : in this image, i am testing the route,http://localhost:5000/api/products/active
 which i already removed in the backend, still on clicking send button in postman, this route is giving replies.
 how is so does possible
@@ -27,3 +27,39 @@ That's why you get a valid (but empty) response, not a 404.
 How to fix this? If you want /api/products/active to return 404 unless you explicitly define it, you should reorder your routes in productRoutes.js:
 
 Tip: Always put parameterized routes like /:id at the end, after all specific routes.
+
+
+
+
+
+------------------------------------------ ERROR - 2 ---------------------------------------------------
+while  at first on clicking user dashboard button, i was redirected to login.html page and nothing was happening on page. 
+then in index.js file, i just changed theredirect login for dashboard button to redirect on auth.html if token is not there, I tested it worked. 
+Even after logging was redirected to user_dashboard.
+
+
+
+
+
+----------------------------- ERROR 3: create product failed on userdashboard -------------------------------
+from frontend we were passing 4 fields while 5 were required to create product, and 5th one is product creator id.
+We should not pass created_By from the frontend. It can be forged.
+Instead, use the user_id that was injected into req.user by your protect middleware. That’s what it's for.
+
+there fore in backend  add line const created_By = req.user.user_id; before the line
+    const productId = generateProductId(created_By, pname);
+
+
+
+
+-------------------- ERROR 4: while loading all products listed by user ----------------------
+error: alert message failed to fetch your products 
+in dev console: dashboard.js:22 
+ GET http://localhost:5000/api/products/user/USER_ZdjDZ7Vamqu0PbQpELkosAw9vg7 404 (Not Found)
+dashboard.js:45 Error fetching user products: 
+fetchUserProducts	@	dashboard.js:45
+await in fetchUserProducts		
+(anonymous)	@	dashboard.js:18
+
+reason: route mismatch in backend's productRoutes
+solved: match the route or just corrected it.

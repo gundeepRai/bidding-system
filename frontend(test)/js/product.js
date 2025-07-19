@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
 
   if (!productId || !userId || !token) {
-    alert("Missing product ID or user not logged in.");
+    alert("Please log in to view product details and placing bid.");
+    window.location.href = 'auth.html';
     return;
   }
 
@@ -35,11 +36,35 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.getElementById("currentPrice").textContent = highestBid;
 
-    // Time Left
+
+
+    // ---------------- Time Left -------------------
     const now = new Date();
     const diff = biddingDeadline - now;
     document.getElementById("timeLeft").textContent =
       diff <= 0 ? "Expired" : `${Math.floor(diff / (1000 * 60 * 60 * 24))}d ${Math.floor((diff / (1000 * 60 * 60)) % 24)}h`;
+    
+    const timeLeftElement = document.getElementById("timeLeft");
+    updateTimeRemaining(); // initial call
+    const timer = setInterval(updateTimeRemaining, 1000); // update every second
+    function updateTimeRemaining() {
+  const now = new Date();
+  const diff = biddingDeadline - now;
+
+  if (diff <= 0) {
+    timeLeftElement.textContent = "Expired";
+    clearInterval(timer); // stop updates once expired
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  timeLeftElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
 
     // 2. Bid History
     fetchBidHistory(product.product_id);
@@ -54,6 +79,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       showFormBtn.disabled = true;
       showFormBtn.textContent = "Bidding Expired";
       showFormBtn.classList.add("opacity-50", "cursor-not-allowed");
+
+      // Call modular function to fetch winner
+      fetchBidWinner(productId);
     } else {
       showFormBtn.addEventListener("click", () => {
         bidForm.classList.toggle("hidden");
@@ -64,8 +92,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         e.preventDefault();
 
         const bidAmount = bidAmountInput.value;
-        if (!bidAmount || parseFloat(bidAmount) <= 0) {
-          bidStatusMsg.textContent = "Enter a valid bid amount.";
+        if (!bidAmount || parseFloat(bidAmount) <= 0 || parseFloat(bidAmount) < highestBid || parseFloat(bidAmount) <= product.startingPrice) {
+          bidStatusMsg.textContent = "Bid more than current value is allowed.";
           return;
         }
 
@@ -100,6 +128,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+
+
 async function fetchBidHistory(productId) {
   const bidHistoryContainer = document.getElementById("bidHistoryBody");
   bidHistoryContainer.innerHTML = "";
@@ -124,6 +154,32 @@ async function fetchBidHistory(productId) {
   } catch (err) {
     console.error("Error fetching bid history:", err);
   }
+}
+
+function fetchBidWinner(productId) {
+  const winnerSection = document.getElementById("bidWinnerSection");
+  const winnerInfo = document.getElementById("winnerInfo");
+
+  fetch(`http://localhost:5000/api/bids/winner/${productId}`)
+    .then(res => {
+      if (!res.ok) throw new Error("No winner found or error occurred.");
+      return res.json();
+    })
+    .then(data => {
+      if (data.winner) {
+        const { name, email } = data.winner;
+        const bidAmount = data.bidAmount;
+        winnerInfo.textContent = `🏆 Winning Bid: ₹${bidAmount} by ${name} (${email})`;
+      } else {
+        winnerInfo.textContent = "No bids were placed.";
+      }
+      winnerSection.classList.remove("hidden");
+    })
+    .catch(err => {
+      console.error("Error fetching bid winner:", err);
+      winnerInfo.textContent = "Error fetching bid winner.";
+      winnerSection.classList.remove("hidden");
+    });
 }
 
 

@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const userName = localStorage.getItem("user_name");
 
   if (!userId || !token) {
-    alert("User not logged in.");
+    alert("Please log in OR Register to access your dashboard.");
+    window.location.href = 'auth.html';
     return;
   }
 
@@ -23,37 +24,162 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-function fetchUserListings(userId) {
-  fetch(`http://localhost:5000/api/products/user/${userId}`)
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.success && data.products) {
-        const listingsTable = document.getElementById("activeListingsBody").querySelector("tbody");
-        listingsTable.innerHTML = "";
+// async function fetchUserListings(userId) {
+//   const res = await fetch(`http://localhost:5000/api/products/user/${userId}`)
+//   const data = await res.json();
 
-        data.products.forEach(async (product) => {
-          const row = document.createElement("tr");
-          row.classList.add("border-t", "border-t-[#e8e1cf]", "cursor-pointer");
+//       if (data.success && data.products) {
+//         const listingsTable = document.getElementById("activeListingsBody").querySelector("tbody");
+//         listingsTable.innerHTML = "";
+        
+//         //for loop for every product listed by user
+//         // data.products.forEach(async (product) => {
+//         //   const row = document.createElement("tr");
+//         //   row.classList.add("border-t", "border-t-[#e8e1cf]", "cursor-pointer");
 
-          const timeLeft = getTimeLeft(product.biddingDeadline);
-          const highestBidAmount = await getHighestBidAmount(product.product_id);
+//         //   const timeLeft = getTimeLeft(product.biddingDeadline);
+//         //   var bid_winner = "---";
+//         //   var highestBidAmount = null;
+//         //   if(timeLeft === "Expired") {    
+//         //     // get highest bid and winner via bidwinner route     
+//         //     fetch(`http://localhost:5000/api/bids/winner/${productId}`)
+//         //       .then(res => {
+//         //         if (!res.ok){return;}
+//         //         return;                
+//         //       })
+//         //       .then(data => {
+//         //         if (data.winner) {
+//         //           const { name, email } = data.winner;
+//         //           highestBidAmount = data.bidAmount;
+//         //           bid_winner = `${name} (${email})`;
+//         //         } else {
+//         //           bid_winner = "---";
+//         //         }
+//         //       });            
+//         //   }
+//         //   if(bid_winner === "---") { highestBidAmount = await getHighestBidAmount(product.product_id); }
 
-          row.innerHTML = `
-            <td class="h-[72px] px-4 py-2 w-[400px] text-[#1c170d] text-sm font-normal">${product.pname}</td>
-            <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">$${highestBidAmount}</td>
-            <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">${timeLeft}</td>
-          `;
+//         //   row.innerHTML = `
+//         //     <td class="h-[72px] px-4 py-2 w-[400px] text-[#1c170d] text-sm font-normal">${product.pname}</td>
+//         //     <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">$${highestBidAmount}</td>
+//         //     <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">${timeLeft}</td>
+//         //     <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">${bid_winner}</td>
+//         //   `;
 
-          row.addEventListener("click", () => {
-            window.location.href = `product.html?id=${product.product_id}`;
-          });
+//         //   row.addEventListener("click", () => {
+//         //     window.location.href = `product.html?id=${product.product_id}`;
+//         //   });
 
-          listingsTable.appendChild(row);
+//         //   listingsTable.appendChild(row);
+//         // });
+
+//         for (const product of data.products) {
+//           const row = document.createElement("tr");
+//           row.classList.add("border-t", "border-t-[#e8e1cf]", "cursor-pointer");
+
+//           const timeLeft = getTimeLeft(product.biddingDeadline);
+//           let bid_winner = "---";
+//           let highestBidAmount = null;
+
+//           if (timeLeft === "Expired") {
+//             // Fetch highest bid and winner after deadline
+//             try {
+//               const winnerRes = await fetch(`http://localhost:5000/api/bids/winner/${product.product_id}`);
+//               if (winnerRes.ok) {
+//                 const winnerData = await winnerRes.json();
+//                 if (winnerData.winner) {
+//                   const { name, email } = winnerData.winner;
+//                   highestBidAmount = winnerData.bidAmount;
+//                   bid_winner = `${name} (${email})`;
+//                 } else {
+//                   bid_winner = "---";
+//                 }
+//               }
+//             } catch (err) {
+//               console.error("Error fetching bid winner:", err);
+//             }
+//           }
+
+//           if (highestBidAmount === null && bid_winner === "---") {
+//             highestBidAmount = await getHighestBidAmount(product.product_id);
+//           }
+
+//           row.innerHTML = `
+//             <td class="h-[72px] px-4 py-2 w-[400px] text-[#1c170d] text-sm font-normal">${product.pname}</td>
+//             <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">₹${highestBidAmount}</td>
+//             <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">${timeLeft}</td>
+//             <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">${bid_winner}</td>
+//           `;
+
+//           row.addEventListener("click", () => {
+//             window.location.href = `product.html?id=${product.product_id}`;
+//           });
+
+//           listingsTable.appendChild(row);
+//         }
+//       }
+//     }.catch(error){
+//       console.error("Error fetching user listings:", error);
+//     }
+// }
+
+async function fetchUserListings(userId) {
+  try {
+    const res = await fetch(`http://localhost:5000/api/products/user/${userId}`);
+    const data = await res.json();
+
+    if (data.success && data.products) {
+      const listingsTable = document.getElementById("activeListingsBody").querySelector("tbody");
+      listingsTable.innerHTML = "";
+
+      for (const product of data.products) {
+        const row = document.createElement("tr");
+        row.classList.add("border-t", "border-t-[#e8e1cf]", "cursor-pointer");
+
+        const timeLeft = getTimeLeft(product.biddingDeadline);
+        let bid_winner = "---";
+        let highestBidAmount = null;
+
+        if (timeLeft === "Expired") {
+          try {
+            const winnerRes = await fetch(`http://localhost:5000/api/bids/winner/${product.product_id}`);
+            if (winnerRes.ok) {
+              const winnerData = await winnerRes.json();
+              if (winnerData.winner) {
+                const { name, email } = winnerData.winner;
+                bid_winner = `${name} (${email})`;
+                highestBidAmount = winnerData.bidAmount;
+              }
+            }
+          } catch (err) {
+            console.error("Error fetching bid winner:", err);
+          }
+        }
+
+        // If not expired or no winner found, get the highest bid normally
+        if (highestBidAmount === null) {
+          highestBidAmount = await getHighestBidAmount(product.product_id);
+        }
+
+        row.innerHTML = `
+          <td class="h-[72px] px-4 py-2 w-[400px] text-[#1c170d] text-sm font-normal">${product.pname}</td>
+          <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">₹${highestBidAmount ?? "---"}</td>
+          <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">${timeLeft}</td>
+          <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">${bid_winner}</td>
+        `;
+
+        row.addEventListener("click", () => {
+          window.location.href = `product.html?id=${product.product_id}`;
         });
+
+        listingsTable.appendChild(row);
       }
-    })
-    .catch(console.error);
+    }
+  } catch (error) {
+    console.error("Error fetching user listings:", error);
+  }
 }
+
 
 async function fetchUserBids(userId) {
   const bidsTable = document.getElementById("userBidsBody");

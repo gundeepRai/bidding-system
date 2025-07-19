@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>User Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;700;800"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body style="font-family: 'Plus Jakarta Sans', 'Noto Sans', sans-serif">
+    <div class="relative flex size-full min-h-screen flex-col bg-[#fcfbf8] overflow-x-hidden">
+      <div class="layout-container flex h-full grow flex-col">
+        <div class="gap-1 px-6 flex flex-1 justify-center py-5">
+          <!-- Sidebar -->
+          <div class="layout-content-container flex flex-col w-80     fixed top-0 left-0 h-screen z-10 ">
+            <div class="flex h-full min-h-[700px] flex-col justify-between bg-[#fcfbf8] p-6    ">
+              <div class="flex flex-col gap-4">
+                <div class="flex gap-3">
+                  <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                    style='background-image: url("https://img.freepik.com/premium-vector/person-with-blue-shirt-that-says-name-person_1029948-7040.jpg?semt=ais_hybrid&w=740");'
+                  ></div>
+                  <div class="overflow-hidden text-ellipsis">
+                    <h1 id="userName" class="text-[#1c170d] text-base font-medium">Emily</h1>
+                    <p id="userIdDisplay" class="text-[#9b844b] text-sm">@emily.carter</p>
+                  </div>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                  <a href="index.html">
+                  <div class="flex items-center gap-3 px-3 py-2">
+                    <p class="text-sm font-bold text-[#1c170d]">Home</p>
+                  </div></a>
+                  <a href="AllProducts.html">
+                  <div class="flex items-center gap-3 px-3 py-2">
+                    <p class="text-sm font-bold text-[#1c170d]">Explore</p>
+                  </div>
+                  </a>
+                  <!-- <div class="flex items-center gap-3 px-3 py-2">
+                    <p class="text-sm font-medium text-[#1c170d]">My Bids</p>
+                  </div> -->
+                  <div class="flex items-center gap-3 px-3 py-2 rounded-full bg-[#f3f0e7]">
+                    <p class="text-sm font-medium text-[#1c170d]">My Listings and Bids</p>
+                  </div>
+                </div>
+              </div>
+
+              <button id="createListingBtn"
+                class="flex items-center justify-center h-10 px-4 bg-[#f4c653] text-[#1c170d] text-sm font-bold rounded-full">
+                Create Product Listing
+              </button>
+            </div>
+          </div>
+
+          <!-- Main Content -->
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex justify-between p-4 items-center border-b border-[#f4ece6] sticky">
+              <p class="text-[#1c170d] text-[32px] font-bold">My Listings and Bids</p>
+              <button id="logoutBtn" class="justify-center h-10 px-4 bg-[#f4c653] text-[#1c170d] text-sm font-bold rounded-full text-sm font-medium underline">Logout</button>
+            </div>
+
+            <h3 class="text-[#1c170d] text-lg font-bold px-4 pb-2">Active Listings</h3>
+            <div class="px-4 py-3">
+              <div class="overflow-hidden rounded-xl border border-[#e8e1cf] bg-[#fcfbf8]">
+                <table class="w-full" id="activeListingsBody">
+                  <thead>
+                    <tr class="bg-[#fcfbf8]">
+                      <th class="px-4 py-3 text-left text-sm font-medium text-[#1c170d]">Item</th>
+                      <th class="px-4 py-3 text-left text-sm font-medium text-[#1c170d]">Highest Bid</th>
+                      <th class="px-4 py-3 text-left text-sm font-medium text-[#1c170d]">Time Left</th>
+                      <th class="px-4 py-3 text-left text-sm font-medium text-[#1c170d]">Bid Winner</th>
+                    </tr>
+                  </thead>
+                  <tbody id="activeListingsBody">
+                    <!-- Data will be populated here by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Placeholder for My Bids section -->
+            <div class="px-4 py-8 text-[#9b844b] text-sm">
+              <h3 class="text-[#1c170d] text-lg font-bold mb-4">My Bids</h3>
+              <table id="userBids">
+                <thead>
+                  <tr class="bg-[#fcfbf8]">
+                    <th class="px-4 py-3 text-left text-sm font-medium text-[#1c170d]">Item</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-[#1c170d]">status</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-[#1c170d]">Time Left</th>
+                  </tr>
+                  </thead>
+                  <tbody id="userBidsBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./js/UserDashboard.js"></script>
+  </body>
+</html>

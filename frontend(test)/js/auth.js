@@ -158,13 +158,14 @@ document.getElementById('signupBtn').addEventListener('click', async function() 
     
     const data = await response.json();
     
+    console.log("Signup response:", data);
     if (response.ok) {
       // Save token in localStorage
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user_id", data.user.user_id);
+      console.log("Signup successful:", data);
       
-      // Redirect to All Products page
-      window.location.href = "./AllProducts.html";
+      alert("Registration successful! You can now log in.");
+      // Redirect to Auth page
+      window.location.href = "./auth.html";
     } else {
       alert(data.error || "Registration failed. Please try again.");
     }

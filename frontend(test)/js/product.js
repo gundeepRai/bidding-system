@@ -45,8 +45,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       diff <= 0 ? "Expired" : `${Math.floor(diff / (1000 * 60 * 60 * 24))}d ${Math.floor((diff / (1000 * 60 * 60)) % 24)}h`;
     
     const timeLeftElement = document.getElementById("timeLeft");
+    let timer; // for countdown timer
     updateTimeRemaining(); // initial call
-    const timer = setInterval(updateTimeRemaining, 1000); // update every second
+    timer = setInterval(updateTimeRemaining, 1000); // update every second
     function updateTimeRemaining() {
   const now = new Date();
   const diff = biddingDeadline - now;

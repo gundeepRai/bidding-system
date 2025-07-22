@@ -38,6 +38,14 @@
                   <span class="truncate">Login</span>
                 </button>
                 </a>
+
+                <!-- Add this to your navbar (near the login/signup buttons) -->
+                <button id="logoutButton" 
+                        class="hidden min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f3c348] text-[#1a170f] text-sm font-bold leading-normal tracking-[0.015em]"
+                        onclick="logout()">
+                  <span class="truncate">Logout</span>
+                </button>
+
                 <a href="UserDashboard.html">
                 <div
                   class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
@@ -192,5 +200,44 @@
             </div>
           </div>
         </div>
+
+        <!-- Add this right before the closing </body> tag in index.html -->
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in (has token in localStorage)
+            const token = localStorage.getItem('token');
+            
+            // Get the login/signup buttons
+            const loginButton = document.querySelector('a[href="auth.html"]');
+            const signupButton = document.querySelector('a[href="auth.html?signup"]'); // Adjust selector based on your actual signup button
+            
+            // If user is logged in, hide the buttons
+            if (token && loginButton) {
+              loginButton.style.display = 'none';
+            }
+            if (token && signupButton) {
+              signupButton.style.display = 'none';
+            }
+            
+            // Optional: Show logout button if logged in
+            const logoutButton = document.getElementById('logoutButton');
+            if (token && logoutButton) {
+              logoutButton.style.display = 'block';
+            }
+          });
+
+          function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user_id');
+            window.location.href = 'index.html'; // Redirect to home page
+          }
+          // Add this function to handle logout
+          // Add click event to logout button
+          const logoutButton = document.getElementById('logoutButton');
+          if (logoutButton) {
+            logoutButton.addEventListener('click', logout);
+          }
+
+        </script>
       </body>
     </html>

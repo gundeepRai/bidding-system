@@ -73,6 +73,7 @@ const getBidsByUser = async (req, res) => {
     const { userId } = req.params;
 
     const bids = await Bid.find({ bid_by: userId })
+      .sort({ bid_amount: -1 }) // Sort by bid amount descending
       .populate({
         path: 'product',
         select: 'pname startingPrice product_id',
@@ -118,26 +119,6 @@ const getHighestBid = async (req, res) => {
   }
 };
 
-// // Get highest bid for a product
-// const getHighestBid = async (req, res) => {
-//   try {
-//     const { productId } = req.params;
-
-//     const highestBid = await Bid.find({ product: productId })
-//       .sort({ bid_amount: -1 })
-//       .limit(1)
-//       .populate('bid_by', 'name email');
-
-//     if (highestBid.length === 0) {
-//       return res.status(404).json({ error: 'No bids found' });
-//     }
-
-//     res.status(200).json({ success: true, highestBid: highestBid[0] });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
 
 const getWinnerAfterDeadline = async (req, res) => {
   try {
@@ -180,6 +161,28 @@ const getWinnerAfterDeadline = async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 };
+
+
+// // Get highest bid for a product
+// const getHighestBid = async (req, res) => {
+//   try {
+//     const { productId } = req.params;
+
+//     const highestBid = await Bid.find({ product: productId })
+//       .sort({ bid_amount: -1 })
+//       .limit(1)
+//       .populate('bid_by', 'name email');
+
+//     if (highestBid.length === 0) {
+//       return res.status(404).json({ error: 'No bids found' });
+//     }
+
+//     res.status(200).json({ success: true, highestBid: highestBid[0] });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
 
 
 // const getWinnerAfterDeadline = async (req, res) => {

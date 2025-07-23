@@ -11,7 +11,7 @@ dotenv.config(); // Load .env
 connectDB();     // Connect to MongoDB
 
 const app = express({
-  origin: "http://127.0.0.1:5500", // frontend served via Live Server
+  origin: "*", // frontend served via Live Server
   credentials: true
 });
 app.use(cors());

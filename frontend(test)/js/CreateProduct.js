@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
-      const res = await fetch("http://localhost:5000/api/products", {
+      const res = await fetch(`${BACKEND_BASE_URL}/api/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

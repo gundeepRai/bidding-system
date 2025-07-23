@@ -24,108 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// async function fetchUserListings(userId) {
-//   const res = await fetch(`http://localhost:5000/api/products/user/${userId}`)
-//   const data = await res.json();
-
-//       if (data.success && data.products) {
-//         const listingsTable = document.getElementById("activeListingsBody").querySelector("tbody");
-//         listingsTable.innerHTML = "";
-        
-//         //for loop for every product listed by user
-//         // data.products.forEach(async (product) => {
-//         //   const row = document.createElement("tr");
-//         //   row.classList.add("border-t", "border-t-[#e8e1cf]", "cursor-pointer");
-
-//         //   const timeLeft = getTimeLeft(product.biddingDeadline);
-//         //   var bid_winner = "---";
-//         //   var highestBidAmount = null;
-//         //   if(timeLeft === "Expired") {    
-//         //     // get highest bid and winner via bidwinner route     
-//         //     fetch(`http://localhost:5000/api/bids/winner/${productId}`)
-//         //       .then(res => {
-//         //         if (!res.ok){return;}
-//         //         return;                
-//         //       })
-//         //       .then(data => {
-//         //         if (data.winner) {
-//         //           const { name, email } = data.winner;
-//         //           highestBidAmount = data.bidAmount;
-//         //           bid_winner = `${name} (${email})`;
-//         //         } else {
-//         //           bid_winner = "---";
-//         //         }
-//         //       });            
-//         //   }
-//         //   if(bid_winner === "---") { highestBidAmount = await getHighestBidAmount(product.product_id); }
-
-//         //   row.innerHTML = `
-//         //     <td class="h-[72px] px-4 py-2 w-[400px] text-[#1c170d] text-sm font-normal">${product.pname}</td>
-//         //     <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">$${highestBidAmount}</td>
-//         //     <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">${timeLeft}</td>
-//         //     <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">${bid_winner}</td>
-//         //   `;
-
-//         //   row.addEventListener("click", () => {
-//         //     window.location.href = `product.html?id=${product.product_id}`;
-//         //   });
-
-//         //   listingsTable.appendChild(row);
-//         // });
-
-//         for (const product of data.products) {
-//           const row = document.createElement("tr");
-//           row.classList.add("border-t", "border-t-[#e8e1cf]", "cursor-pointer");
-
-//           const timeLeft = getTimeLeft(product.biddingDeadline);
-//           let bid_winner = "---";
-//           let highestBidAmount = null;
-
-//           if (timeLeft === "Expired") {
-//             // Fetch highest bid and winner after deadline
-//             try {
-//               const winnerRes = await fetch(`http://localhost:5000/api/bids/winner/${product.product_id}`);
-//               if (winnerRes.ok) {
-//                 const winnerData = await winnerRes.json();
-//                 if (winnerData.winner) {
-//                   const { name, email } = winnerData.winner;
-//                   highestBidAmount = winnerData.bidAmount;
-//                   bid_winner = `${name} (${email})`;
-//                 } else {
-//                   bid_winner = "---";
-//                 }
-//               }
-//             } catch (err) {
-//               console.error("Error fetching bid winner:", err);
-//             }
-//           }
-
-//           if (highestBidAmount === null && bid_winner === "---") {
-//             highestBidAmount = await getHighestBidAmount(product.product_id);
-//           }
-
-//           row.innerHTML = `
-//             <td class="h-[72px] px-4 py-2 w-[400px] text-[#1c170d] text-sm font-normal">${product.pname}</td>
-//             <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">₹${highestBidAmount}</td>
-//             <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">${timeLeft}</td>
-//             <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">${bid_winner}</td>
-//           `;
-
-//           row.addEventListener("click", () => {
-//             window.location.href = `product.html?id=${product.product_id}`;
-//           });
-
-//           listingsTable.appendChild(row);
-//         }
-//       }
-//     }.catch(error){
-//       console.error("Error fetching user listings:", error);
-//     }
-// }
-
 async function fetchUserListings(userId) {
   try {
-    const res = await fetch(`http://localhost:5000/api/products/user/${userId}`);
+    const res = await fetch(`${BACKEND_BASE_URL}/api/products/user/:${userId}`);
     const data = await res.json();
 
     if (data.success && data.products) {
@@ -142,7 +43,7 @@ async function fetchUserListings(userId) {
 
         if (timeLeft === "Expired") {
           try {
-            const winnerRes = await fetch(`http://localhost:5000/api/bids/winner/${product.product_id}`);
+            const winnerRes = await fetch(`${BACKEND_BASE_URL}/api/bids/winner/:${product.product_id}`);
             if (winnerRes.ok) {
               const winnerData = await winnerRes.json();
               if (winnerData.winner) {
@@ -186,7 +87,7 @@ async function fetchUserBids(userId) {
   bidsTable.innerHTML = "";
 
   try {
-    const res = await fetch(`http://localhost:5000/api/bids/user/${userId}`);
+    const res = await fetch(`${BACKEND_BASE_URL}/api/bids/user/:${userId}`);
     const { success, bids } = await res.json();
     if (!success || !bids) return;
 
@@ -201,7 +102,7 @@ async function fetchUserBids(userId) {
       // 1️⃣ Fetch bidding deadline
       let deadline;
       try {
-        const pRes = await fetch(`http://localhost:5000/api/products/${product.product_id}`);
+        const pRes = await fetch(`${BACKEND_BASE_URL}/api/products/:${product.product_id}`);
         const pData = await pRes.json();
         deadline = new Date(pData.product[0].biddingDeadline);
       } catch {
@@ -215,7 +116,7 @@ async function fetchUserBids(userId) {
       // 3️⃣ Who's highest?
       let highest;
       try {
-        const hbRes = await fetch(`http://localhost:5000/api/bids/highest/${product.product_id}`);
+        const hbRes = await fetch(`${BACKEND_BASE_URL}/api/bids/highest/:${product.product_id}`);
         if (hbRes.ok) {
           const hbData = await hbRes.json();
           highest = hbData.highestBid;
@@ -266,106 +167,6 @@ function getTimeLeft(deadline) {
 }
 
 
-// function fetchUserBids(userId) {
-//   fetch(`http://localhost:5000/api/bids/user/${userId}`)
-//     .then((res) => res.json())
-//     .then((data) => {
-//       if (data.success && data.bids) {
-//         const bidsTable = document.getElementById("userBidsBody");
-//         bidsTable.innerHTML = "";
-
-//         const seenProductIds = new Set();
-
-//         data.bids.forEach(async (bid) => {
-//           const product = bid.product;
-//           if (!product || seenProductIds.has(product.product_id)) return;
-//           seenProductIds.add(product.product_id);
-
-//           const deadline = new Date(product.biddingDeadline);
-//           const now = new Date();
-
-//           const highestBid = await getHighestBidder(product.product_id);
-
-//           let status = "Outbid";
-//           if (highestBid && highestBid.bid_by === userId) {
-//             status = deadline > now ? "Highest Bid" : "Won";
-//           } else {
-//             status = deadline > now ? "Outbid" : "Lost";
-//           }
-
-//           const timeLeft = getTimeLeft(product.biddingDeadline);
-
-//           const row = document.createElement("tr");
-//           row.classList.add("border-t", "border-t-[#e8e1cf]", "cursor-pointer");
-
-//           row.innerHTML = `
-//             <td class="h-[72px] px-4 py-2 w-[400px] text-[#1c170d] text-sm font-normal">${product.pname}</td>
-//             <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">${status}</td>
-//             <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">${timeLeft}</td>
-//           `;
-
-//           row.addEventListener("click", () => {
-//             window.location.href = `product.html?id=${product.product_id}`;
-//           });
-
-//           bidsTable.appendChild(row);
-//         });
-//       }
-//     })
-//     .catch(console.error);
-// }
-
-
-// function fetchUserBids(userId) {
-//   fetch(`http://localhost:5000/api/bids/user/${userId}`)
-//     .then((res) => res.json())
-//     .then((data) => {
-//       if (data.success && data.bids) {
-//         const bidsTable = document.querySelectorAll("table")[1].querySelector("tbody");
-//         bidsTable.innerHTML = "";
-
-//         const now = new Date();
-
-//         const seenProductIds = new Set();
-
-//         data.bids.forEach(async (bid) => {
-//           const product = bid.product;
-//           if (!product || seenProductIds.has(product.product_id)) return;
-//           seenProductIds.add(product.product_id);
-
-//           const timeLeft = getTimeLeft(bid.bid_time);
-//           const highestBid = await getHighestBidder(product.product_id);
-
-//           let status = "Outbid";
-//           if (highestBid && highestBid.bid_by === userId) {
-//             status = "Highest Bid";
-//           }
-
-//           const bidDeadline = new Date(bid.bid_time);
-//           if (bidDeadline < now) {
-//             status = "Lost";
-//           }
-
-//           const row = document.createElement("tr");
-//           row.classList.add("border-t", "border-t-[#e8e1cf]", "cursor-pointer");
-
-//           row.innerHTML = `
-//             <td class="h-[72px] px-4 py-2 w-[400px] text-[#1c170d] text-sm font-normal">${product.pname}</td>
-//             <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">${status}</td>
-//             <td class="h-[72px] px-4 py-2 w-[400px] text-[#9b844b] text-sm font-normal">${timeLeft}</td>
-//           `;
-
-//           row.addEventListener("click", () => {
-//             window.location.href = `product.html?id=${product.product_id}`;
-//           });
-
-//           bidsTable.appendChild(row);
-//         });
-//       }
-//     })
-//     .catch(console.error);
-// }
-
 function getTimeLeft(deadline) {
   const now = new Date();
   const end = new Date(deadline);
@@ -381,7 +182,7 @@ function getTimeLeft(deadline) {
 
 async function getHighestBidAmount(productId) {
   try {
-    const res = await fetch(`http://localhost:5000/api/bids/highest/${productId}`);
+    const res = await fetch(`${BACKEND_BASE_URL}/api/bids/highest/:${productId}`);
     const data = await res.json();
 
     if (!res.ok) {
@@ -399,7 +200,7 @@ async function getHighestBidAmount(productId) {
 
 async function getHighestBidder(productId) {
   try {
-    const res = await fetch(`http://localhost:5000/api/bids/highest/${productId}`);
+    const res = await fetch(`${BACKEND_BASE_URL}/api/bids/highest/:${productId}`);
     const data = await res.json();
     return data.success ? data.highestBid : null;
   } catch {

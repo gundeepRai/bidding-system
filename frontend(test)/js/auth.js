@@ -93,7 +93,7 @@ document.getElementById('loginBtn').addEventListener('click', async function() {
   }
   
   try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/auth/login`, {
+    const response = await fetch(`${window.BACKEND_BASE_URL}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -144,7 +144,7 @@ document.getElementById('signupBtn').addEventListener('click', async function() 
   }
   
   try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/auth/register`, {
+    const response = await fetch(`${window.BACKEND_BASE_URL}/api/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

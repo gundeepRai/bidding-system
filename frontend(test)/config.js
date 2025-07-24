@@ -1,5 +1,6 @@
-// Change this value based on environment
-const BACKEND_BASE_URL = "https://bidding-system-platform.onrender.com";
+/// config.js
+window.BACKEND_BASE_URL = "https://bidding-system-platform.onrender.com";
+
 
 // Export it
-//export default BACKEND_BASE_URL;
+// export default BACKEND_BASE_URL;

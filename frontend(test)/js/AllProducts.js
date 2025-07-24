@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load products
   const productList = document.getElementById("product-list");
 
-  fetch(`${BACKEND_BASE_URL}/api/products/active`)
+  fetch(`${window.BACKEND_BASE_URL}/api/products/active`)
     .then((res) => res.json())
     .then((data) => {
       if (data.success && Array.isArray(data.products)) {

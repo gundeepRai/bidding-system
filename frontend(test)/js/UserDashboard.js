@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function fetchUserListings(userId) {
   try {
-    const res = await fetch(`${BACKEND_BASE_URL}/api/products/user/:${userId}`);
+    const res = await fetch(`${window.BACKEND_BASE_URL}/api/products/user/:${userId}`);
     const data = await res.json();
 
     if (data.success && data.products) {
@@ -43,7 +43,7 @@ async function fetchUserListings(userId) {
 
         if (timeLeft === "Expired") {
           try {
-            const winnerRes = await fetch(`${BACKEND_BASE_URL}/api/bids/winner/:${product.product_id}`);
+            const winnerRes = await fetch(`${window.BACKEND_BASE_URL}/api/bids/winner/:${product.product_id}`);
             if (winnerRes.ok) {
               const winnerData = await winnerRes.json();
               if (winnerData.winner) {
@@ -87,7 +87,7 @@ async function fetchUserBids(userId) {
   bidsTable.innerHTML = "";
 
   try {
-    const res = await fetch(`${BACKEND_BASE_URL}/api/bids/user/:${userId}`);
+    const res = await fetch(`${window.BACKEND_BASE_URL}/api/bids/user/:${userId}`);
     const { success, bids } = await res.json();
     if (!success || !bids) return;
 
@@ -102,7 +102,7 @@ async function fetchUserBids(userId) {
       // 1️⃣ Fetch bidding deadline
       let deadline;
       try {
-        const pRes = await fetch(`${BACKEND_BASE_URL}/api/products/:${product.product_id}`);
+        const pRes = await fetch(`${window.BACKEND_BASE_URL}/api/products/:${product.product_id}`);
         const pData = await pRes.json();
         deadline = new Date(pData.product[0].biddingDeadline);
       } catch {
@@ -116,7 +116,7 @@ async function fetchUserBids(userId) {
       // 3️⃣ Who's highest?
       let highest;
       try {
-        const hbRes = await fetch(`${BACKEND_BASE_URL}/api/bids/highest/:${product.product_id}`);
+        const hbRes = await fetch(`${window.BACKEND_BASE_URL}/api/bids/highest/:${product.product_id}`);
         if (hbRes.ok) {
           const hbData = await hbRes.json();
           highest = hbData.highestBid;
@@ -182,7 +182,7 @@ function getTimeLeft(deadline) {
 
 async function getHighestBidAmount(productId) {
   try {
-    const res = await fetch(`${BACKEND_BASE_URL}/api/bids/highest/:${productId}`);
+    const res = await fetch(`${window.BACKEND_BASE_URL}/api/bids/highest/:${productId}`);
     const data = await res.json();
 
     if (!res.ok) {
@@ -200,7 +200,7 @@ async function getHighestBidAmount(productId) {
 
 async function getHighestBidder(productId) {
   try {
-    const res = await fetch(`${BACKEND_BASE_URL}/api/bids/highest/:${productId}`);
+    const res = await fetch(`${window.BACKEND_BASE_URL}/api/bids/highest/:${productId}`);
     const data = await res.json();
     return data.success ? data.highestBid : null;
   } catch {

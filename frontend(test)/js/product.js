@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     // 1. Product Details
-    const res = await fetch(`${window.BACKEND_BASE_URL}/api/products/:${productId}`);
+    const res = await fetch(`${window.BACKEND_BASE_URL}/api/products/${productId}`);
     const data = await res.json();
 
     if (!data.success || data.product.length === 0) {
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("startingPrice").textContent = product.startingPrice;
 
     // Current Price (Highest Bid)
-    const bidRes = await fetch(`${window.BACKEND_BASE_URL}/api/bids/highest/:${product.product_id}`);
+    const bidRes = await fetch(`${window.BACKEND_BASE_URL}/api/bids/highest/${product.product_id}`);
     const bidData = await bidRes.json();
     const highestBid = bidData.success ? bidData.highestBid.bid_amount : product.startingPrice;
 
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         try {
-          const response = await fetch(`${window.BACKEND_BASE_URL}/api/bids/:${product.product_id}`, {
+          const response = await fetch(`${window.BACKEND_BASE_URL}/api/bids/place/${product.product_id}`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -136,7 +136,7 @@ async function fetchBidHistory(productId) {
   bidHistoryContainer.innerHTML = "";
 
   try {
-    const res = await fetch(`${window.BACKEND_BASE_URL}/api/bids/history/:${productId}`);
+    const res = await fetch(`${window.BACKEND_BASE_URL}/api/bids/history/${productId}`);
     const data = await res.json();
 
     if (data.success && data.bids.length > 0) {
@@ -161,7 +161,7 @@ function fetchBidWinner(productId) {
   const winnerSection = document.getElementById("bidWinnerSection");
   const winnerInfo = document.getElementById("winnerInfo");
 
-  fetch(`${window.BACKEND_BASE_URL}/api/bids/winner/:${productId}`)
+  fetch(`${window.BACKEND_BASE_URL}/api/bids/winner/${productId}`)
     .then(res => {
       if (!res.ok) throw new Error("No winner found or error occurred.");
       return res.json();

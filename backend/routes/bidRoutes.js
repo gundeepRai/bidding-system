@@ -10,7 +10,7 @@ const {
 } = require('../controllers/bidController');
 
 // POST /api/bids/:productId → Place bid and only logged in user can place bids only
-router.post('/:productId', protect, placeBid);
+router.post('/place/:productId', protect, placeBid);
 
 // GET /api/bids/:productId → Get product bid history
 router.get('/history/:productId', getBidsByProduct);

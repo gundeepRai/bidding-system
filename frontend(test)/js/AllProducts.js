@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 Deadline: ${new Date(product.biddingDeadline).toLocaleString()}
               </p>
             </div>
-            <img src="https://via.placeholder.com/100" alt="${product.pname}" class="rounded-lg h-24 w-24 object-cover ml-4">
+            <img src="" alt="${product.pname}" class="rounded-lg h-24 w-24 object-cover ml-4">
           `;
 
           card.addEventListener("click", () => {
